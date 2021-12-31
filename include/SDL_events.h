@@ -862,8 +862,8 @@ extern DECLSPEC int SDLCALL SDL_PollEvent(SDL_Event * event);
  *
  * \param event the SDL_Event structure to be filled in with the next event
  *              from the queue, or NULL
- * \returns 1 on success or 0 if there was an error while waiting for events;
- *          call SDL_GetError() for more information.
+ * \returns 1 once an event arrived. Returns 0 if locking the event queue
+ *          failed; call SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.
  *
@@ -887,9 +887,10 @@ extern DECLSPEC int SDLCALL SDL_WaitEvent(SDL_Event * event);
  *              from the queue, or NULL
  * \param timeout the maximum number of milliseconds to wait for the next
  *                available event
- * \returns 1 on success or 0 if there was an error while waiting for events;
- *          call SDL_GetError() for more information. This also returns 0 if
- *          the timeout elapsed without an event arriving.
+ * \returns 1 if an event arrived before the timeout elapsed,
+ *          0 if the timeout elapsed without an event arriving.
+ *          If locking the event queue fails, aborts waiting and returns 0,
+ *          in which case SDL_GetError() will provide more information.
  *
  * \since This function is available since SDL 2.0.0.
  *
